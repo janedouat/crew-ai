@@ -1,10 +1,11 @@
-# Jane's AI Agents
+# Jane's Digital Twin Agent
 
-A collection of AI agents that represent Jane's digital presence and capabilities. This includes a conversational digital twin that has access to Jane's resume and professional background, and can fetch and refer to Hacker News articles that Jane would be interested in reading based on her interests
+A conversational AI agent that can act as Jane. The digital twin has access to Jane's resume and professional background, and can fetch and refer to Hacker News articles that Jane would read on any given day (based on her interests). This is still a WIP.
 
-## Available Agents
+We also exposed a Hacker News research agent to test the Hacker News tool integration.
 
-### 1. Jane's Digital Twin
+## Jane's Digital Twin Features
+
 - **Conversational AI**: Responds to prompts with Jane's personality, background, and expertise
 - **Resume Access**: Has access to Jane's complete professional background and experience
 - **Hacker News Integration**: Can fetch and analyze Hacker News articles that match Jane's interests
@@ -12,12 +13,12 @@ A collection of AI agents that represent Jane's digital presence and capabilitie
 - **Background**: MBA at HBS, former Special Projects lead at Vera Health (YC S24), CTO & Co-founder of OMENA
 - **Expertise**: Healthcare tech, AI, privacy, women in tech, building tools that help people
 
-### 2. Hacker News Research Agent
-- **Personalized Filtering**: Filters Hacker News stories based on Jane's specific interests
-- **Interest Categories**: AI providers, mobile apps, JavaScript, privacy, health tech, and more
-- **TLDR Summaries**: Provides 3 bullet-point summaries for each relevant story
-- **Relevance Scoring**: Ranks stories by personal relevance (1-10 scale)
-- **Real-time Data**: Fetches live data from Hacker News API
+## Additional Testing Tools
+
+### Hacker News Research Agent
+- **Purpose**: Testing tool to validate Hacker News API integration
+- **Features**: Personalized filtering, TLDR summaries, relevance scoring
+- **Use Case**: Validates that the Hacker News tools work correctly for the digital twin
 
 ## Installation
 
@@ -40,38 +41,45 @@ uv sync
 **Add your `ANTHROPIC_API_KEY` into the `.env` file**
 
 
-## Running the Agents
+## Running Jane's Digital Twin
 
-### Jane's Digital Twin (Conversational Agent)
+### Basic Conversation
 
 To chat with Jane's digital twin:
 
 ```bash
-# Basic conversation
 python cli_jane.py "Your prompt here"
+```
 
-# With Hacker News search capability
+Examples:
+```bash
+python cli_jane.py "Introduce yourself to the class"
+python cli_jane.py "Explain your background in 3 sentences"
+python cli_jane.py "What are your thoughts on AI in healthcare?"
+```
+
+### With Hacker News Integration
+
+To have Jane search and analyze Hacker News articles:
+
+```bash
 python jane_search_hackernews.py "Your question about tech"
 ```
 
 Examples:
 ```bash
-# Basic conversation
-python cli_jane.py "Introduce yourself to the class"
-python cli_jane.py "Explain your background in 3 sentences"
-python cli_jane.py "What are your thoughts on AI in healthcare?"
-
-# Hacker News search
 python jane_search_hackernews.py "What are the latest developments in AI healthcare?"
 python jane_search_hackernews.py "Tell me about recent privacy concerns in tech"
 python jane_search_hackernews.py "What's happening with women in tech startups?"
 ```
 
-### Hacker News Research Agent
+## Testing the Hacker News Tools
 
-To run the Hacker News research agent:
+To test the Hacker News research agent (used for validation):
 
 ```bash
+# Run the complete research pipeline (fetch + analyze)
+python run_hackernews.py
 
 # Run only the story fetching task
 python run_fetch_stories.py
@@ -94,17 +102,22 @@ This will:
 - **Console output**: Filtered list of relevant stories with relevance scores
 - **File output**: `hackernews_tldr_summaries.md` with detailed TLDR summaries
 
-## Understanding the Agents
+## Understanding Jane's Digital Twin
 
-### Jane's Digital Twin
+### Core Capabilities
 - **Role**: Conversational AI that represents Jane's personality, background, and interests
 - **Personality**: Sarcastic but friendly and humble AI that knows everything about Jane
 - **Background**: MBA at Harvard Business School, former Special Projects lead at Vera Health (YC S24), CTO & Co-founder of OMENA
 - **Interests**: Healthcare tech, AI, privacy, building tools that help people, women in tech
 - **Goal**: Represent Jane's personality with a healthy dose of sarcasm and wit
 
-### Hacker News Research System
-The Hacker News research system consists of two specialized AI agents:
+### Hacker News Integration
+- **Tools**: Has access to Hacker News API tools for searching and fetching stories
+- **Filtering**: Automatically filters stories based on Jane's professional interests
+- **Analysis**: Provides Jane's unique perspective on relevant tech news and discussions
+
+### Supporting Research System
+The Hacker News research system (used for testing) consists of two specialized agents:
 
 #### Hacker News Research Specialist
 - **Role**: Monitors and analyzes Hacker News for trending topics
