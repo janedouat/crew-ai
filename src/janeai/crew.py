@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
+from .tools.custom_tool import HackerNewsTool, HackerNewsSearchTool
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
@@ -20,16 +21,17 @@ class Janeai():
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def researcher(self) -> Agent:
+    def hackernews_researcher(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
+            config=self.agents_config['hackernews_researcher'], # type: ignore[index]
+            tools=[HackerNewsTool(), HackerNewsSearchTool()],
             verbose=True
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def hackernews_analyst(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
+            config=self.agents_config['hackernews_analyst'], # type: ignore[index]
             verbose=True
         )
 
@@ -37,17 +39,18 @@ class Janeai():
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
     @task
-    def research_task(self) -> Task:
+    def fetch_personalized_stories_task(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
+            config=self.tasks_config['fetch_personalized_stories_task'], # type: ignore[index]
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def create_tldr_summaries_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
-            output_file='report.md'
+            config=self.tasks_config['create_tldr_summaries_task'], # type: ignore[index]
+            output_file='hackernews_tldr_summaries.md'
         )
+
 
     @crew
     def crew(self) -> Crew:

@@ -1,17 +1,56 @@
-research_task:
+fetch_personalized_stories_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
+    Fetch the top 30 stories from Hacker News and filter them based on personal interests:
+    - AI providers (OpenAI, Anthropic, Google, etc.)
+    - Big AI labs news and announcements
+    - Health technology and medical AI
+    - Mobile apps and mobile development
+    - JavaScript frameworks and tools
+    - AI agents and automation
+    - LLMs and language models
+    - AI privacy and data privacy
+    - Cloudflare and infrastructure
+    - Apple development and Xcode
+    - Browser security and vulnerabilities
+    - Coding agents and AI development tools
+    
+    Based on the user's upvoted history, prioritize stories similar to:
+    - Cloudflare AI insights
+    - Apple development tools
+    - Anthropic/OpenAI announcements
+    - Browser security issues
+    - Mobile app development
+    - AI coding agents
+    - Privacy policy updates
+    - Open source AI models
+    
+    Select the 10 most relevant stories from the top 30.
   expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+    A curated list of the 10 most personally relevant Hacker News stories with:
+    - Story title and URL
+    - Score and comment count
+    - Relevance score (1-10) and why it's relevant
+    - Key topics that match user interests
+    - Brief context about why this matters
+  agent: hackernews_researcher
 
-reporting_task:
+create_tldr_summaries_task:
   description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    For each of the 10 most relevant stories, create a TLDR with exactly 3 bullet points.
+    Each bullet point must be very specific and contain only factual information from:
+    - The original Hacker News story page
+    - The linked article/page content
+    - The story's score, comments, and metadata
+    
+    Focus on the most important, actionable, or interesting facts that would help the user
+    understand what happened and why it matters to their interests.
+    
+    Do NOT include speculation, opinions, or information not directly from the sources.
   expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
+    For each of the 10 stories, provide:
+    - Story title and URL
+    - Relevance score (1-10) and why it's relevant to user interests
+    - TLDR with exactly 3 bullet points containing specific facts from the story
+    - Key takeaway for the user
+  agent: hackernews_analyst
+
