@@ -3,6 +3,7 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from .tools.custom_tool import HackerNewsTool, HackerNewsSearchTool
+
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
@@ -58,12 +59,6 @@ class Janeai():
             output_file='hackernews_tldr_summaries.md'
         )
 
-    @task
-    def conversational_intro_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['conversational_intro_task'], # type: ignore[index]
-            output_file='jane_digital_twin_intro.md'
-        )
 
 
     @crew
