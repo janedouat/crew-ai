@@ -53,4 +53,3 @@ create_tldr_summaries_task:
     - TLDR with exactly 3 bullet points containing specific facts from the story
     - Key takeaway for the user
   agent: hackernews_analyst
-

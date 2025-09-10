@@ -35,6 +35,13 @@ class Janeai():
             verbose=True
         )
 
+    @agent
+    def jane_digital_twin_light(self) -> Agent:
+        return Agent(
+            config=self.agents_config['jane_digital_twin_light'], # type: ignore[index]
+            verbose=True
+        )
+
     # To learn more about structured task outputs,
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
@@ -49,6 +56,13 @@ class Janeai():
         return Task(
             config=self.tasks_config['create_tldr_summaries_task'], # type: ignore[index]
             output_file='hackernews_tldr_summaries.md'
+        )
+
+    @task
+    def conversational_intro_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['conversational_intro_task'], # type: ignore[index]
+            output_file='jane_digital_twin_intro.md'
         )
 
 
