@@ -40,6 +40,7 @@ class Janeai():
     def jane_digital_twin_light(self) -> Agent:
         return Agent(
             config=self.agents_config['jane_digital_twin_light'], # type: ignore[index]
+            tools=[HackerNewsTool(), HackerNewsSearchTool()],
             verbose=True
         )
 
@@ -57,6 +58,14 @@ class Janeai():
         return Task(
             config=self.tasks_config['create_tldr_summaries_task'], # type: ignore[index]
             output_file='hackernews_tldr_summaries.md'
+        )
+
+    @task
+    def jane_hackernews_search_task(self) -> Task:
+        return Task(
+            description="Search Hacker News for stories related to the user's question and provide Jane's perspective on the findings",
+            expected_output="Jane's analysis of relevant Hacker News stories with her unique perspective and insights",
+            agent=self.jane_digital_twin_light()
         )
 
 

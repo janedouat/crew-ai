@@ -31,7 +31,7 @@ def main():
     # Create task for the prompt
     task = Task(
         description=prompt,
-        expected_output="A witty, sarcastic response that captures Jane's personality and knowledge",
+        expected_output="A witty, sarcastic response that captures Jane's personality and knowledge and uses available tools (like the hacker news tool)",
         agent=jane_agent
     )
     

@@ -1,11 +1,13 @@
 # Jane's AI Agents
 
-A collection of AI agents that represent Jane's digital presence and capabilities. This includes a conversational digital twin and a personalized Hacker News research system that filters and summarizes the most relevant tech news based on Jane's specific interests.
+A collection of AI agents that represent Jane's digital presence and capabilities. This includes a conversational digital twin that has access to Jane's resume and professional background, and can fetch and refer to Hacker News articles that Jane would be interested in reading based on her interests
 
 ## Available Agents
 
 ### 1. Jane's Digital Twin
 - **Conversational AI**: Responds to prompts with Jane's personality, background, and expertise
+- **Resume Access**: Has access to Jane's complete professional background and experience
+- **Hacker News Integration**: Can fetch and analyze Hacker News articles that match Jane's interests
 - **Personality**: Sarcastic but friendly, direct, and focused on healthcare tech innovation
 - **Background**: MBA at HBS, former Special Projects lead at Vera Health (YC S24), CTO & Co-founder of OMENA
 - **Expertise**: Healthcare tech, AI, privacy, women in tech, building tools that help people
@@ -45,14 +47,24 @@ uv sync
 To chat with Jane's digital twin:
 
 ```bash
+# Basic conversation
 python cli_jane.py "Your prompt here"
+
+# With Hacker News search capability
+python jane_search_hackernews.py "Your question about tech"
 ```
 
 Examples:
 ```bash
+# Basic conversation
 python cli_jane.py "Introduce yourself to the class"
 python cli_jane.py "Explain your background in 3 sentences"
 python cli_jane.py "What are your thoughts on AI in healthcare?"
+
+# Hacker News search
+python jane_search_hackernews.py "What are the latest developments in AI healthcare?"
+python jane_search_hackernews.py "Tell me about recent privacy concerns in tech"
+python jane_search_hackernews.py "What's happening with women in tech startups?"
 ```
 
 ### Hacker News Research Agent
@@ -113,14 +125,20 @@ To modify Jane's agents interests or behavior:
 ## Example Output
 
 ### Jane's Digital Twin
-Jane's digital twin responds with her unique personality:
+Jane's digital twin responds with her unique personality and can fetch relevant Hacker News articles:
 
 ```
 🤖 Jane's response:
 Hey! I'm Jane - currently an MBA at HBS, but I'm really just a healthcare tech nerd who can't stop building things. 
 I spent this summer at Vera Health (YC S24) building AI tools for doctors (because apparently writing YAML configs by hand is still a thing in 2024?). 
 Before that, I co-founded OMENA for the 250 million women going through menopause. 
-I'm always thinking "how would a physician actually use this?" and I never really take breaks - I just say "see you later" like I'll be back in an hour.
+
+Let me check what's interesting on Hacker News today that I'd actually want to read...
+
+[Fetches real Hacker News articles filtered by Jane's interests in healthcare tech, AI, privacy, and women in tech]
+
+Oh, this is interesting - there's a story about AI-powered diagnostic tools that actually shows promise for real clinical use. 
+And look at this discussion about privacy in healthcare data - finally, someone's thinking about the patients, not just the tech.
 ```
 
 ### Hacker News Research Agent
