@@ -1,5 +1,7 @@
 # Jane's Digital Twin Agent
 
+![Jane's Digital Twin UI](ui_screenshot.png)
+
 A CLI-accessible Jane clone with two main features: ask Jane questions directly, or get her thoughts on today's Hacker News stories.
 
 ## Features
@@ -82,9 +84,19 @@ You should see the Jane's Digital Twin menu appear!
 
 ## Running Jane's Digital Twin
 
+
+### Web UI
+
+You can interact with Jane through a simple UI locally by running:
+
+```bash
+uv run streamlit run streamlit_app.py
+```
+
+
 ### Interactive CLI
 
-Run the interactive interface to choose between the two features:
+You can also interact with jane in your terminal:
 
 ```bash
 uv run janeai
