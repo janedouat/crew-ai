@@ -1,6 +1,10 @@
 import streamlit as st
 import os
 from datetime import datetime
+
+# Workaround for ChromaDB SQLite issue on Streamlit Cloud
+os.environ["CHROMA_DB_IMPL"] = "duckdb+parquet"
+
 from src.janeai.crew import Janeai
 
 # Page config
