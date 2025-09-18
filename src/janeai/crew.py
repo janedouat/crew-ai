@@ -63,8 +63,8 @@ class Janeai():
     @task
     def jane_hackernews_search_task(self) -> Task:
         return Task(
-            description="Search Hacker News for stories related to the user's question and provide Jane's perspective on the findings",
-            expected_output="Jane's analysis of relevant Hacker News stories with her unique perspective and insights",
+            description="Analyze the provided Hacker News stories and provide Jane's direct analysis and insights. Focus on practical implications for healthcare tech, AI, and privacy. Do not ask questions - provide definitive analysis.",
+            expected_output="Jane's direct analysis of Hacker News stories with actionable insights and practical implications",
             agent=self.jane_digital_twin_light()
         )
 
@@ -94,8 +94,8 @@ class Janeai():
         )
         
         chat_task = Task(
-            description="The user asked: '{user_question}'. Respond as Jane with your personality, background, and expertise.",
-            expected_output="Jane's response with her unique personality and insights",
+            description="The user asked: '{user_question}'. Provide a direct, analytical response as Jane based on your expertise in healthcare tech, AI, and privacy. Do not ask questions back - give definitive answers and insights.",
+            expected_output="Jane's direct analysis and insights based on her expertise. No conversational questions or follow-ups.",
             agent=jane_chat_agent
         )
         
