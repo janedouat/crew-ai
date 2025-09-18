@@ -1,132 +1,117 @@
 # Jane's Digital Twin Agent
 
-A conversational AI agent that can act as Jane. The digital twin has access to Jane's resume and professional background, and can fetch and refer to Hacker News articles that Jane would read on any given day (based on her interests). This is still a WIP.
+A CLI-accessible Jane clone with two main features: ask Jane questions directly, or get her thoughts on today's Hacker News stories.
 
-We also exposed a Hacker News research agent to test the Hacker News tool integration.
+## Features
 
-## Jane's Digital Twin Features
+### 1. Ask Jane a Question
+- **Direct conversation** with Jane's digital twin
+- **Humble and brief responses** 
+- **Access to Jane's background**
+- **No external tool calls** - pure conversation mode
 
-- **Conversational AI**: Responds to prompts with Jane's personality, background, and expertise
-- **Resume Access**: Has access to Jane's complete professional background and experience
-- **Hacker News Integration**: Can fetch and analyze Hacker News articles that match Jane's interests
-- **Personality**: Sarcastic but friendly, direct, and focused on healthcare tech innovation
-- **Background**: MBA at HBS, former Special Projects lead at Vera Health (YC S24), CTO & Co-founder of OMENA
-- **Expertise**: Healthcare tech, AI, privacy, women in tech, building tools that help people
-
-## Additional Testing Tools
-
-### Hacker News Research Agent
-- **Purpose**: Testing tool to validate Hacker News API integration
-- **Features**: Personalized filtering, TLDR summaries, relevance scoring
-- **Use Case**: Validates that the Hacker News tools work correctly for the digital twin
+### 2. Get Jane's Take on Hacker News
+- **Full research pipeline** using specialized Hacker News agents
+- **Personalized filtering** based on Jane's interests (healthcare tech, AI, privacy, women in tech)
+- **TLDR summaries** of the most relevant stories
+- **Jane's unique perspective** on the day's tech news
+- **Output file**: `hackernews_tldr_summaries.md`
 
 ## Installation
 
-Ensure you have Python >=3.10 <3.14 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling.
+### Prerequisites
 
-First, if you haven't already, install uv:
+- **Python**: >=3.10 <3.14 installed on your system
+- **API Key**: Anthropic API key for Claude (the AI model Jane uses)
+
+### Step 1: Install UV Package Manager
+
+This project uses [UV](https://docs.astral.sh/uv/) for fast dependency management. Install it first:
 
 ```bash
 pip install uv
 ```
 
-Next, navigate to your project directory and install the dependencies:
+### Step 2: Clone and Setup Project
 
 ```bash
+# Clone the repository (if not already done)
+git clone <your-repo-url>
+cd MIT-AI-STUDIO
+
+# Install all dependencies
 uv sync
 ```
 
-### Setup
+This will:
+- Create a virtual environment automatically
+- Install all required packages (CrewAI, Anthropic, etc.)
+- Set up the project structure
 
-**Add your `ANTHROPIC_API_KEY` into the `.env` file**
+### Step 3: Environment Configuration
+
+Create a `.env` file in the project root and add your Anthropic API key and model:
+
+```bash
+# Create .env file
+touch .env
+
+# Add your API key and model (replace with your actual values)
+echo "ANTHROPIC_API_KEY=your_anthropic_api_key_here" >> .env
+echo "MODEL=claude-3-5-sonnet-20240620" >> .env
+```
+
+**Configuration details:**
+- **API Key**: Visit [console.anthropic.com](https://console.anthropic.com) to create an account and generate an API key
+- **Model**: Choose from available Claude models:
+  - `claude-3-5-sonnet-20240620` (recommended - latest and most capable)
+  - `claude-3-5-haiku-20241022` (faster, more cost-effective)
+  - `claude-3-opus-20240229` (most powerful, slower)
+
+### Step 4: Verify Installation
+
+Test that everything is working:
+
+```bash
+# Run the interactive CLI
+uv run janeai
+```
+
+You should see the Jane's Digital Twin menu appear!
 
 
 ## Running Jane's Digital Twin
 
-### Basic Conversation
+### Interactive CLI
 
-To chat with Jane's digital twin:
-
-```bash
-python cli_jane.py "Your prompt here"
-```
-
-Examples:
-```bash
-python cli_jane.py "Introduce yourself to the class"
-python cli_jane.py "Explain your background in 3 sentences"
-python cli_jane.py "What are your thoughts on AI in healthcare?"
-```
-
-### With Hacker News Integration
-
-To have Jane search and analyze Hacker News articles:
+Run the interactive interface to choose between the two features:
 
 ```bash
-python jane_search_hackernews.py "Your question about tech"
+uv run janeai
 ```
 
-Examples:
-```bash
-python jane_search_hackernews.py "What are the latest developments in AI healthcare?"
-python jane_search_hackernews.py "Tell me about recent privacy concerns in tech"
-python jane_search_hackernews.py "What's happening with women in tech startups?"
+This will show you a menu:
+```
+🤖 Jane's Digital Twin - Interactive Mode
+==================================================
+
+What would you like?
+1. Ask Jane a question
+2. Get Jane's take on the Hacker News news of the day
+
+Enter your choice (1-2): 
 ```
 
-## Testing the Hacker News Tools
+### Option 1: Ask Jane a Question
+- Choose option 1 and enter your question
+- Jane will respond with her personality, background, and expertise
+- Perfect for personal questions, career advice, or general conversation
 
-To test the Hacker News research agent (used for validation):
-
-```bash
-# Run the complete research pipeline (fetch + analyze)
-python run_hackernews.py
-
-# Run only the story fetching task
-python run_fetch_stories.py
-```
-
-This will:
-1. Fetch the top 30 stories from Hacker News
-2. Filter them based on Jane's interests
-3. Select the 10 most relevant stories
-4. Generate TLDR summaries with 3 bullet points each
-5. Save results to `hackernews_tldr_summaries.md`
-
-## Output
-
-### Jane's Digital Twin
-- **Console output**: Direct responses from Jane's digital twin with her personality and expertise
-- **Interactive**: Responds to any prompt with Jane's unique voice and perspective
-
-### Hacker News Research Agent
-- **Console output**: Filtered list of relevant stories with relevance scores
-- **File output**: `hackernews_tldr_summaries.md` with detailed TLDR summaries
-
-## Understanding Jane's Digital Twin
-
-### Core Capabilities
-- **Role**: Conversational AI that represents Jane's personality, background, and interests
-- **Personality**: Sarcastic but friendly and humble AI that knows everything about Jane
-- **Background**: MBA at Harvard Business School, former Special Projects lead at Vera Health (YC S24), CTO & Co-founder of OMENA
-- **Interests**: Healthcare tech, AI, privacy, building tools that help people, women in tech
-- **Goal**: Represent Jane's personality with a healthy dose of sarcasm and wit
-
-### Hacker News Integration
-- **Tools**: Has access to Hacker News API tools for searching and fetching stories
-- **Filtering**: Automatically filters stories based on Jane's professional interests
-- **Analysis**: Provides Jane's unique perspective on relevant tech news and discussions
-
-### Supporting Research System
-The Hacker News research system (used for testing) consists of two specialized agents:
-
-#### Hacker News Research Specialist
-- **Role**: Monitors and analyzes Hacker News for trending topics
-- **Tools**: Hacker News API integration, search capabilities
-- **Goal**: Identify the most relevant stories from top 30
-
-#### Hacker News Content Analyst  
-- **Role**: Analyzes and synthesizes stories into actionable insights
-- **Goal**: Create detailed TLDR summaries with 3 bullet points per story
+### Option 2: Get Jane's Take on Hacker News
+- Choose option 2 for Jane's analysis of today's tech news
+- Uses specialized Hacker News research agents
+- Creates personalized summaries based on Jane's interests
+- Saves results to `hackernews_tldr_summaries.md`
 
 ## Customization
 
@@ -134,36 +119,6 @@ To modify Jane's agents interests or behavior:
 - Edit `src/janeai/config/agents.yaml` to change agent roles and goals
 - Edit `src/janeai/config/tasks.yaml` to modify filtering criteria or output format
 - Edit `src/janeai/tools/custom_tool.py` to add new data sources or tools
-
-## Example Output
-
-### Jane's Digital Twin
-Jane's digital twin responds with her unique personality and can fetch relevant Hacker News articles:
-
-```
-🤖 Jane's response:
-Hey! I'm Jane - currently an MBA at HBS, but I'm really just a healthcare tech nerd who can't stop building things. 
-I spent this summer at Vera Health (YC S24) building AI tools for doctors (because apparently writing YAML configs by hand is still a thing in 2024?). 
-Before that, I co-founded OMENA for the 250 million women going through menopause. 
-
-Let me check what's interesting on Hacker News today that I'd actually want to read...
-
-[Fetches real Hacker News articles filtered by Jane's interests in healthcare tech, AI, privacy, and women in tech]
-
-Oh, this is interesting - there's a story about AI-powered diagnostic tools that actually shows promise for real clinical use. 
-And look at this discussion about privacy in healthcare data - finally, someone's thinking about the patients, not just the tech.
-```
-
-### Hacker News Research Agent
-Jane's Hacker News agent will generate personalized summaries like:
-
-```
-1. Claude now has access to a server-side container environment (Relevance: 10/10)
-   TLDR:
-   • Claude can now create, edit, and execute files within a secure server-side container
-   • Supports multiple programming languages for code execution
-   • Enhances AI-assisted development capabilities significantly
-```
 
 ## Support
 

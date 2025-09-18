@@ -15,15 +15,59 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 def run():
     """
-    Run the crew.
+    Run the crew with interactive user input.
     """
-    inputs = {
-        'topic': 'Hacker News Analysis',
-        'current_year': str(datetime.now().year)
-    }
+    print("🤖 Jane's Digital Twin - Interactive Mode")
+    print("=" * 50)
+    
+    # Ask what the user wants
+    print("\nWhat would you like?")
+    print("1. Ask Jane a question")
+    print("2. Get Jane's take on the Hacker News news of the day")
+    
+    choice = input("\nEnter your choice (1-2): ").strip()
+    
+    if choice == "1":
+        # Ask Jane a question
+        question = input("\nWhat would you like to ask Jane? ")
+        inputs = {
+            'topic': 'Chat with Jane',
+            'user_question': question,
+            'current_year': str(datetime.now().year)
+        }
+        
+    elif choice == "2":
+        # Jane's Hacker News perspective
+        inputs = {
+            'topic': 'Hacker News Analysis',
+            'current_year': str(datetime.now().year)
+        }
+        
+    else:
+        print("Invalid choice. Running default Hacker News analysis...")
+        inputs = {
+            'topic': 'Hacker News Analysis',
+            'current_year': str(datetime.now().year)
+        }
     
     try:
-        Janeai().crew().kickoff(inputs=inputs)
+        print(f"\n🚀 Running: {inputs['topic']}")
+        print("=" * 50)
+        
+        janeai = Janeai()
+        
+        if choice == "1":
+            # Chat with Jane
+            crew = janeai.create_chat_crew(inputs)
+        elif choice == "2":
+            # Jane's Hacker News perspective
+            crew = janeai.create_hackernews_crew(inputs)
+        else:
+            # Default crew
+            crew = janeai.crew()
+        
+        crew.kickoff(inputs=inputs)
+        
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 

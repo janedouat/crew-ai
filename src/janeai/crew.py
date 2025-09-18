@@ -40,7 +40,7 @@ class Janeai():
     def jane_digital_twin_light(self) -> Agent:
         return Agent(
             config=self.agents_config['jane_digital_twin_light'], # type: ignore[index]
-            tools=[HackerNewsTool(), HackerNewsSearchTool()],
+            tools=[],
             verbose=True
         )
 
@@ -72,7 +72,7 @@ class Janeai():
 
     @crew
     def crew(self) -> Crew:
-        """Creates the Janeai crew"""
+        """Creates the default Janeai crew"""
         # To learn how to add knowledge sources to your crew, check out the documentation:
         # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
 
@@ -83,3 +83,39 @@ class Janeai():
             verbose=True,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )
+
+    def create_chat_crew(self, inputs: dict) -> Crew:
+        """Creates a crew for direct chat with Jane"""
+        # Create Jane without Hacker News tools for pure conversation
+        jane_chat_agent = Agent(
+            config=self.agents_config['jane_digital_twin_light'],
+            tools=[],  # No tools for pure conversation
+            verbose=True
+        )
+        
+        chat_task = Task(
+            description="The user asked: '{user_question}'. Respond as Jane with your personality, background, and expertise.",
+            expected_output="Jane's response with her unique personality and insights",
+            agent=jane_chat_agent
+        )
+        
+        crew = Crew(
+            agents=[jane_chat_agent],
+            tasks=[chat_task],
+            process=Process.sequential,
+            verbose=True
+        )
+        
+        return crew
+
+    def create_hackernews_crew(self, inputs: dict) -> Crew:
+        """Creates a crew for Hacker News analysis with Jane's perspective"""
+        # Use the full Hacker News research pipeline
+        crew = Crew(
+            agents=[self.hackernews_researcher(), self.hackernews_analyst(), self.jane_digital_twin_light()],
+            tasks=[self.fetch_personalized_stories_task(), self.create_tldr_summaries_task(), self.jane_hackernews_search_task()],
+            process=Process.sequential,
+            verbose=True
+        )
+        
+        return crew
