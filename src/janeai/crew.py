@@ -41,7 +41,8 @@ class Janeai():
         return Agent(
             config=self.agents_config['jane_digital_twin_light'], # type: ignore[index]
             tools=[],
-            verbose=True
+            verbose=True,
+            llm="gpt-4o-mini"  # Use OpenAI instead of Anthropic
         )
 
     # To learn more about structured task outputs,
@@ -90,7 +91,8 @@ class Janeai():
         jane_chat_agent = Agent(
             config=self.agents_config['jane_digital_twin_light'],
             tools=[],  # No tools for pure conversation
-            verbose=True
+            verbose=True,
+            llm="gpt-4o-mini"  # Use OpenAI instead of Anthropic
         )
         
         chat_task = Task(

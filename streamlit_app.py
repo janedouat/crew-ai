@@ -1,11 +1,17 @@
 import streamlit as st
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Workaround for ChromaDB SQLite issue on Streamlit Cloud
 os.environ["CHROMA_DB_IMPL"] = "duckdb+parquet"
 
 from src.janeai.crew import Janeai
+from src.janeai.voice import get_voice_input
+from src.janeai.voice.whisper_api import WhisperInput
 
 # Page config
 st.set_page_config(
@@ -219,18 +225,63 @@ tab1, tab2 = st.tabs(["Ask Me Anything", "Hacker News"])
 
 # Tab 1: Ask Me Anything
 with tab1:
-    # Text input with arrow icon
-    st.markdown('<div class="text-input-container">', unsafe_allow_html=True)
+    # Initialize session state for voice input
+    if "voice_question" not in st.session_state:
+        st.session_state.voice_question = ""
     
+    # Voice input section
+    st.markdown("**🎤 Voice Input** (record your question)")
+    audio_bytes = st.audio_input("Record your question")g
+    
+    # Initialize session state for tracking audio
+    if "last_audio_hash" not in st.session_state:
+        st.session_state.last_audio_hash = None
+    
+    if audio_bytes:
+        st.audio(audio_bytes)
+        
+        # Create a hash of the audio to detect new recordings
+        import hashlib
+        current_audio_hash = hashlib.md5(audio_bytes.read()).hexdigest()
+        audio_bytes.seek(0)  # Reset file pointer
+        
+        # Check if this is a new recording
+        is_new_recording = st.session_state.last_audio_hash != current_audio_hash
+        
+        if is_new_recording:
+            st.session_state.last_audio_hash = current_audio_hash
+            
+            # Initialize Whisper transcriber
+            whisper_input = WhisperInput()
+            
+            if whisper_input.is_supported():
+                with st.spinner("🔄 Auto-transcribing your audio..."):
+                    try:
+                        transcription = whisper_input.transcribe_audio(audio_bytes)
+                        st.session_state.voice_question = transcription
+                        st.success(f"✅ Transcribed: '{transcription}'")
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Transcription failed: {str(e)}")
+            else:
+                st.warning("⚠️ " + whisper_input.get_error_message())
+                st.info("💡 Add your OpenAI API key to `.env` file: `OPENAI_API_KEY=your_key_here`")
+        else:
+            # Show existing transcription if available
+            if st.session_state.voice_question:
+                st.info(f"💬 Current transcription: '{st.session_state.voice_question}'")
+    
+    # Text input (populated by voice or manual typing)
     question = st.text_input(
-        "What would you like to ask me?",
+        "Or type your question:",
         placeholder="ask me anything",
-        label_visibility="collapsed",
+        value=st.session_state.voice_question,
         key="question_input"
     )
     
-    st.markdown('<span class="arrow-icon">→</span>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    # Clear voice question after it's been used
+    if st.session_state.voice_question and question != st.session_state.voice_question:
+        st.session_state.voice_question = ""
     
     # Process question on Enter key or when text changes
     if question:

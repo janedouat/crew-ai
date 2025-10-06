@@ -1484,12 +1484,14 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "crewai", extra = ["tools"] },
+    { name = "openai" },
     { name = "streamlit" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "crewai", extras = ["tools"], specifier = ">=0.177.0,<1.0.0" },
+    { name = "openai", specifier = ">=1.107.0" },
     { name = "streamlit", specifier = ">=1.28.0" },
 ]
 
