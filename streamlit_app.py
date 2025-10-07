@@ -231,15 +231,13 @@ with tab1:
     
     # Voice input section
     st.markdown("**🎤 Voice Input** (record your question)")
-    audio_bytes = st.audio_input("Record your question")g
+    audio_bytes = st.audio_input("Record your question")
     
     # Initialize session state for tracking audio
     if "last_audio_hash" not in st.session_state:
         st.session_state.last_audio_hash = None
     
     if audio_bytes:
-        st.audio(audio_bytes)
-        
         # Create a hash of the audio to detect new recordings
         import hashlib
         current_audio_hash = hashlib.md5(audio_bytes.read()).hexdigest()
@@ -266,10 +264,6 @@ with tab1:
             else:
                 st.warning("⚠️ " + whisper_input.get_error_message())
                 st.info("💡 Add your OpenAI API key to `.env` file: `OPENAI_API_KEY=your_key_here`")
-        else:
-            # Show existing transcription if available
-            if st.session_state.voice_question:
-                st.info(f"💬 Current transcription: '{st.session_state.voice_question}'")
     
     # Text input (populated by voice or manual typing)
     question = st.text_input(
