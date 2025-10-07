@@ -12,6 +12,7 @@ os.environ["CHROMA_DB_IMPL"] = "duckdb+parquet"
 from src.janeai.crew import Janeai
 from src.janeai.voice import get_voice_input
 from src.janeai.voice.whisper_api import WhisperInput
+from src.janeai.voice.tts_service import TTSService
 
 # Page config
 st.set_page_config(
@@ -230,8 +231,7 @@ with tab1:
         st.session_state.voice_question = ""
     
     # Voice input section
-    st.markdown("**🎤 Voice Input** (record your question)")
-    audio_bytes = st.audio_input("Record your question")
+    audio_bytes = st.audio_input("Record your question (click on the microphone icon)")
     
     # Initialize session state for tracking audio
     if "last_audio_hash" not in st.session_state:
@@ -295,10 +295,28 @@ with tab1:
                 
                 
                 # Extract and display the raw content
+                response_text = ""
                 if isinstance(result, dict) and 'raw' in result:
-                    st.markdown(result['raw'])
+                    response_text = result['raw']
+                    st.markdown(response_text)
                 else:
-                    st.markdown(str(result))
+                    response_text = str(result)
+                    st.markdown(response_text)
+                
+                # Convert Jane's response to speech
+                if response_text.strip():  # Only if there's actual content
+                    try:
+                        tts_service = TTSService()
+                        if tts_service.is_available():
+                            with st.spinner("🔊 Generating voice response..."):
+                                st.markdown("🔊 **Jane's voice response:**")
+                                tts_service.play_audio_in_streamlit(response_text, voice="nova")
+                        else:
+                            st.info("💡 Voice output requires OpenAI API key")
+                    except Exception as e:
+                        st.error(f"Voice output failed: {str(e)}")
+                        # Show the actual error for debugging
+                        st.error(f"Debug info: {type(e).__name__}: {str(e)}")
                 
             except Exception as e:
                 st.error(f"Error: {e}")
